@@ -4,6 +4,11 @@ def bytes_xor(s1, s2):
     return ''.join(chr(ord(c1) ^ ord(c2)) for c1,c2 in zip(s1,s2))
 
 def breakcloud(cloud):
+    """
+	receives 'cloud', an object of type Cloud.
+	creates a file with the name 'plain.txt' that stores the current text that is encrypted in the cloud.
+	you can use only the Read/Write interfaces of Cloud (do not use its internal variables.)
+	"""
     old_ct = ""
     aes_output = ""
     i = 0
