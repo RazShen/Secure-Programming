@@ -1,25 +1,25 @@
-
-
 from cloud import *
 from breakcloud import *
 
 def testcloud():
-	#testing your cloud functionality:
-	cloud = new Cloud('what.txt')
-	r1 = cloud.Read(10) # r1 = '\xb1'
-	r2 = cloud.Read(20) # r2 = '\x41'
+	# testing your cloud functionality
+	key = b'\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c'
+	nonce = b'\x00\x00\x00\x00\x00\x00\x00\x00'
+	cloud = Cloud('what.txt', key, nonce)
+	r1 = cloud.Read(10)
+	r2 = cloud.Read(20)
 	v = '\x10'
 	pos = 5
-	r3 = cloud.Write(pos, v) # r3 = '\xc5'
-	r4 = cloud.Read(5) # r4 = '\xbc'
-	if r1 == '\xb1' and r2 == '\x41' and r3 == '\xc5' and r4 = '\xbc':
+	r3 = cloud.Write(pos, v)
+	r4 = cloud.Read(5)
+	if r1 == '\xa1' and r2 == '\x32' and r3 == '\x29' and r4 == '\x50':
 		print "success!"
 	else:
 		print "failed..."
 
 def testbreaker():
-	testfile = 'what.txt'
-	cloud = new Cloud(testfile)
+	testfile = 'why.txt'
+	cloud = Cloud(testfile)
 	breakcloud(cloud)
 
 	with open(testfile, mode='rb') as file:
@@ -28,7 +28,6 @@ def testbreaker():
 		with open('plain.txt', mode='rb') as breakerresult:
 			breakercontent = breakerresult.read()
 			breakerresult.close()
-
 			if originalcontent == breakercontent:
 				print "success!"
 				exit()
