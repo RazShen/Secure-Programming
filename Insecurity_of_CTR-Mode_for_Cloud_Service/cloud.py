@@ -14,14 +14,14 @@ class Cloud:
 	the cloud stores your content encrypted.
 	you can add variables and methods to this class as you want.
 	"""
-	def __init__(self, filename, key=get_random_bytes(32), nouce=get_random_bytes(8)):
+	def __init__(self, filename, key=get_random_bytes(32), nonce=get_random_bytes(8)):
 		"""
 		Encrypt the content of 'filename' and store its ciphertext at self.ciphertext
 		The encryption to use here is AES-CTR with 32 byte key.
 		The counter should begin with zero.
 		"""
 		self.__key = key
-		self.__nonce = nouce
+		self.__nonce = nonce
 		self.__fn = filename
 		
 		with open(self.__fn, mode='rb') as file:
@@ -32,6 +32,12 @@ class Cloud:
 		countf = Counter.new(64, self.__nonce)
 		crypto = AES.new(self.__key, AES.MODE_CTR, counter=countf)
 		self.__ct = crypto.encrypt(self.__pt)
+	def Length(self):
+		"""
+		Returns the length of the plaintext/ciphertext (they are of the same length).
+		This is necessary so one would not read/write with an invalid position.
+		"""
+		return len(self.__ct)
 
 	def Read(self, position=0):
 		"""
